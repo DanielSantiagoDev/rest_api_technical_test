@@ -5,6 +5,12 @@ const ACCOUNT = {
   accountName: 'Tecnical Test danisantiago.luengo',
   accountId: '15c2e804-4054-5b0c-b941-74c82d7db095'
 }
+const PRODUCT = {
+    name: 'Tecnical Test danisantiago.luengo Base Product',
+    id: '623df82c22352be6b3c9719d'
+}
+
+const Example_Asset_Id = "danisantiago.luengo0" //Asset retrieved from a GET
 
 describe('API Test',  () => {
 
@@ -51,6 +57,20 @@ describe('API Test',  () => {
       expect(Array.isArray(response.data)).toEqual(true);
       expect(response.data.length > 0 ).toEqual(true)
       expect(response.data[0].ownerAccountId ).toEqual(ACCOUNT.accountId)
+      
+    })
+
+
+    it('Bulk activation of assets should return a bulk process object', async () => {
+
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+  
+      let response = await rest.activate_and_subscribe_all_assets(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
+
+      expect(response.http_code === 202).toEqual(true);
+      expect(response.data.accountId).toEqual(ACCOUNT.accountId);
+      expect(response.data.type ).toEqual("bulk_action_subscribe_main")
+      
       
     })
 

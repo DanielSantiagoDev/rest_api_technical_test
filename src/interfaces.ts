@@ -16,6 +16,15 @@ export type LoginResponseType = {
     }
 };
 
+export type BulkResponseType = {
+    "id": string,
+    "accountId": string,
+    "count": number,
+    "modified": string,
+    "created": string,
+    "status": string,
+    "type" : string
+  }
 
 export type CreateUserResponseType = {
     "_id": string,
