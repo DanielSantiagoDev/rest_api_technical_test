@@ -1,7 +1,7 @@
 import axios, {AxiosResponse, AxiosError } from 'axios';
 
 
-import { LoginResponseType, CreateUserResponseType } from './interfaces';
+import { LoginResponseType, CreateUserResponseType, ListAssetsType } from './interfaces';
 
 enum Method {get,post,put,delete};
 
@@ -22,7 +22,7 @@ export class Rest_handler {
 
     async login() {
         let body = {username : this.user,password:this.password};
-        let response = await this.call_api<LoginResponseType>("post","auth/token", body,false);
+        let response = await this.call_api<LoginResponseType>("post","auth/token", body,undefined,false);
         this.token = response.data.token;
         return response;
     }
@@ -42,33 +42,36 @@ export class Rest_handler {
                 }
             ]
         }
-
-        return await this.call_api<CreateUserResponseType>("post","users",body,true)
+        return await this.call_api<CreateUserResponseType>("post","users",body)
     }
 
-    async call_api<Type>(method: keyof typeof Method ,path:string,body?:any,auth_required:boolean = true){
+    async list_assets(account_id:string){
+        let args = {accountId:account_id};
+        return await this.call_api<ListAssetsType>("get","assets",undefined,args);
+    }
+    
+    async call_api<Type>(method: keyof typeof Method ,path:string,body?:any,params?:any,auth_required:boolean = true){
         try{
             let response : AxiosResponse<Type>;
-            let config = {headers:{}}
 
+            let config = {
+                method  : method,
+                url     : this.base_url + path,
+                headers : {},
+                data    : body,
+                params  : params
+            }
+            
             if(auth_required === true && this.token === ""){
-                console.log("setting...")
                 let login = await this.login()
                 this.token = login.data.token;
-                console.log("setting..." , this.token)
             }
+
             if(auth_required === true){
-                config.headers = {"x-access-token" : this.token}
+                config.headers =  {"x-access-token" : this.token}
             }
 
-            if(body === undefined){
-                response =  await axios[method]<Type>(this.base_url + path,undefined,config);
-            }else{
-                console.log(this.base_url + path)
-                console.log(body)
-                response =  await axios[method]<Type>(this.base_url + path,body,config);
-            }
-
+            response = await axios.request<Type>(config);
             return {data : response.data,http_code : response.status};
 
         } catch(err) {

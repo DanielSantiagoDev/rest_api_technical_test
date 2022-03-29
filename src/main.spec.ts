@@ -41,5 +41,20 @@ describe('API Test',  () => {
     })
 
 
+    it('Listing all the assets should the return all the assets associated with the account', async () => {
+
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+  
+      let response = await rest.list_assets(ACCOUNT.accountId);
+
+      expect(response.http_code === 200).toEqual(true);
+      expect(Array.isArray(response.data)).toEqual(true);
+      expect(response.data.length > 0 ).toEqual(true)
+      expect(response.data[0].ownerAccountId ).toEqual(ACCOUNT.accountId)
+      
+    })
+
+
 
 })
+
