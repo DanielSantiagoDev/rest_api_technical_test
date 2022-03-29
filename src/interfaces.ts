@@ -15,3 +15,51 @@ export type LoginResponseType = {
       status: string,
     }
 };
+
+
+export type CreateUserResponseType = {
+    "_id": string,
+    "username": string,
+    "email": string,
+    "lastAccess": string,
+    "status": string,
+    "permissions": [
+      {
+        "accountId": string,
+        "roles": [
+          string
+        ]
+      }
+    ],
+    "favorites": {
+      "disims": [
+        string
+      ],
+      "summaries": [
+        string
+      ],
+      "billing": [
+        string
+      ],
+      "users": [
+        string
+      ],
+      "products": [
+        string
+      ],
+      "accounts": [
+        string
+      ],
+      "assets": [
+        string
+      ],
+      "imsis": [
+        string
+      ]
+    },
+    "profile": {
+      "picture": string,
+      "language": string,
+      "timezone": string
+    }
+  }

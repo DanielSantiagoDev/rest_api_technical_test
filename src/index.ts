@@ -6,7 +6,7 @@ console.log("starting..")
 import {Rest_handler} from './Rest_handler';
 
 
-const USER    = { username: 'danisantiago.luengo2', password: 'ogneul.ogaitnasinad' };
+const USER    = { username: 'danisantiago.luengo', password: 'ogneul.ogaitnasinad' };
 const ACCOUNT = {
     accountName: 'Tecnical Test danisantiago.luengo',
     accountId: '15c2e804-4054-5b0c-b941-74c82d7db095'
@@ -16,7 +16,7 @@ const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USE
 
 async function start(){
     try{
-        let res = await rest.login();
+        let res = await rest.create_user_on_account(ACCOUNT.accountId,"Jose Luis","pwdd","danisantiago.luengo@gmail.com","active");
         console.log(res);
     }catch(error){
         console.log("hubo un error")
