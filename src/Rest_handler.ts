@@ -21,6 +21,7 @@ export class Rest_handler {
 
 
     async login() {
+        
         let body = {username : this.user,password:this.password};
         let response = await this.call_api<LoginResponseType>("post","auth/token", body,undefined,false);
         this.token = response.data.token;
@@ -124,7 +125,8 @@ export class Rest_handler {
             }else{
                 console.log("error status : " + errors.response?.status);
                 console.log("error info : " , errors.response?.data ); 
-                throw err;  
+                
+                throw errors;  
             }
         }
     }

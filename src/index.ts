@@ -23,8 +23,8 @@ const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USE
 async function start(){
     try{
         //let res = await rest.list_assets(ACCOUNT.accountId);
-        //let res = await rest.activate_and_subscribe_asset(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
-        let res = await rest.activate_and_subscribe_all_assets(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
+        let res = await rest.activate_and_subscribe_asset(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
+        //let res = await rest.activate_and_subscribe_all_assets(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
         
         console.log((res));
     }catch(error){

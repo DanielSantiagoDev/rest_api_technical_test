@@ -29,6 +29,15 @@ describe('API Test',  () => {
       
     })
 
+    it('Failed Login should throw and error with code 401', async () => {
+      const USER    = { username: 'danisantiago.luengo2', password: 'ogneul.ogaitnasinad' };
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+
+      rest.login().then(()=>{}).catch((err)=>{
+        expect(err.response.status).toEqual(401);
+      });  
+    })
+
 
 
     it('Creating a user into an account should return the created user', async () => {
@@ -46,6 +55,20 @@ describe('API Test',  () => {
       
     })
 
+    it('Creating an already created user should return an error', async () => {
+
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+      let name = "Jose Luis_" //this username should already exist
+      let mail = "danisantiago.luengo@gmail.com"
+      let status = "active"
+      
+
+      rest.create_user_on_account(ACCOUNT.accountId,name,"pwdd",mail,status).then(()=>{}).catch((err)=>{
+        expect(err.response.status).toEqual(400);
+      });
+
+    })
+
 
     it('Listing all the assets should the return all the assets associated with the account', async () => {
 
@@ -60,6 +83,13 @@ describe('API Test',  () => {
       
     })
 
+    it('Listing the assests of a wrong account ID should return a not found error', async () => {
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+      rest.list_assets(ACCOUNT.accountId + "wrong_id").then(()=>{}).catch((err)=>{
+        expect(err.response.status).toEqual(404);
+      });
+    })
+
 
     it('Bulk activation of assets should return a bulk process object', async () => {
 
@@ -72,6 +102,15 @@ describe('API Test',  () => {
       expect(response.data.type ).toEqual("bulk_action_subscribe_main")
       
       
+    })
+
+
+    it('Bulk asset activation with the wrong data should return an error', async () => {
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+
+      rest.activate_and_subscribe_all_assets(Example_Asset_Id + "wrong_id",ACCOUNT.accountId,PRODUCT.id).then(()=>{}).catch((err)=>{
+        expect(err.response.status).toEqual(404);
+      });
     })
 
 
