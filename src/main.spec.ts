@@ -1,16 +1,11 @@
 import {Rest_handler} from './Rest_handler';
 
-const USER    = { username: 'danisantiago.luengo', password: 'ogneul.ogaitnasinad' };
-const ACCOUNT = {
-  accountName: 'Tecnical Test danisantiago.luengo',
-  accountId: '15c2e804-4054-5b0c-b941-74c82d7db095'
-}
-const PRODUCT = {
-    name: 'Tecnical Test danisantiago.luengo Base Product',
-    id: '623df82c22352be6b3c9719d'
-}
+const USER_CONFIG = require('../config.json');
+const USER    = USER_CONFIG.USER
+const ACCOUNT = USER_CONFIG.ACCOUNT;
+const PRODUCT = USER_CONFIG.PRODUCT;
 
-const Example_Asset_Id = "danisantiago.luengo0" //Asset retrieved from a GET
+const Example_Asset_Id = "danisantiago.luengo3" //Asset retrieved from a GET
 
 describe('API Test',  () => {
 
@@ -90,6 +85,29 @@ describe('API Test',  () => {
       });
     })
 
+    it('Subscribing and activating an asset should return activation data', async () => {
+
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+  
+      let response = await rest.activate_and_subscribe_asset(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id);
+
+      expect(response.http_code === 200).toEqual(true);
+      expect(response.data.iccid).toEqual(Example_Asset_Id);
+      expect(response.data.status === "active" ).toEqual(true)
+      expect(response.data.ownerAccountId ).toEqual(ACCOUNT.accountId)
+      
+    })
+
+    it('Subscribing and already activated asset should return an already subscribed status', async () => {
+      const rest = new Rest_handler("https://hummingbird-staging.podgroup.com/v3/",USER.username,USER.password);
+  
+     
+
+      rest.activate_and_subscribe_asset(Example_Asset_Id,ACCOUNT.accountId,PRODUCT.id).then(()=>{}).catch((err)=>{
+        expect(err.response.status).toEqual(500);
+      
+      });
+    })
 
     it('Bulk activation of assets should return a bulk process object', async () => {
 

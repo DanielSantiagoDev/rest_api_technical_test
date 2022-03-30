@@ -25,7 +25,29 @@ export type BulkResponseType = {
     "status": string,
     "type" : string
   }
-
+export type SubscribeAssetResponse = {
+  iccid: string,
+  msisdn: Array<string>,
+  carriers: { TEST: true },
+  imsisType: string,
+  status: string,
+  type: string,
+  profileState: '',
+  limit: 2097152,
+  smsLimit: 100,
+  subscriptions: [ [Object] ],
+  setups: [ [Object] ],
+  virtualMSISDN: [],
+  id: string,
+  ownership: Array<string>,
+  ownerAccountId: string,
+  ownerAccountName: string,
+  subscriptionDate: string,
+  activationDate: string,
+  endTimeContractLength: null,
+  fixedIPs: [],
+  securityServices: []
+}
 export type CreateUserResponseType = {
     "_id": string,
     "username": string,

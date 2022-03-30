@@ -1,0 +1,15 @@
+{
+    "USER" : { 
+        "username": "danisantiago.luengo", "password": "ogneul.ogaitnasinad" 
+    },
+    "ACCOUNT" : {
+        "accountName": "Tecnical Test danisantiago.luengo",
+        "accountId"  : "15c2e804-4054-5b0c-b941-74c82d7db095"
+    },
+    "PRODUCT" : {
+        "name": "Tecnical Test danisantiago.luengo Base Product",
+        "id": "623df82c22352be6b3c9719d"
+    }
+}
+
+

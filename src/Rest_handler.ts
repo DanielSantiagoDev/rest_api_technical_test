@@ -1,7 +1,7 @@
 import axios, {AxiosResponse, AxiosError } from 'axios';
 
 
-import { LoginResponseType, CreateUserResponseType, ListAssetsType,BulkResponseType } from './interfaces';
+import { LoginResponseType, CreateUserResponseType, ListAssetsType,SubscribeAssetResponse,BulkResponseType } from './interfaces';
 
 enum Method {get,post,put,delete};
 
@@ -58,16 +58,11 @@ export class Rest_handler {
             subscription : {
                 subscriberAccountId : account_id,
                 productId : product_id,
-                startTime : d.getDate() + "/" + d.getMonth() + 1 + "/" + d.getFullYear(),
-                ipPools : [
-                    {
-                        "carrier": "TEST",
-                        "poolId": "TEST"
-                    }
-                ]
+                startTime : undefined,
+
             }
         }
-        return await this.call_api("put","assets/"+asset_id+"/subscribe",body);
+        return await this.call_api<SubscribeAssetResponse>("put","assets/"+asset_id+"/subscribe",body);
     }
 
     async activate_and_subscribe_all_assets(asset_id:string,account_id:string,product_id:string){
@@ -123,8 +118,8 @@ export class Rest_handler {
             if(!axios.isAxiosError(errors)){
                 throw err;
             }else{
-                console.log("error status : " + errors.response?.status);
-                console.log("error info : " , errors.response?.data ); 
+                //console.log("error status : " + errors.response?.status);
+                //console.log("error info : " , errors.response?.data ); 
                 
                 throw errors;  
             }
