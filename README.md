@@ -33,3 +33,8 @@ Made with jest : Run the following
 ```bash
 npm run test
 ```
+Coverage
+
+```bash
+npm run coverage
+```
